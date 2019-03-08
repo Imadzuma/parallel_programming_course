@@ -118,7 +118,7 @@ int main() {
             distance_matrix[iter + 1][vertex] = distance_matrix[iter][vertex];
         // Update distance for vertexes
         for (int from = 0; from < vertex_count; ++from) {
-            if (distance_matrix[iter][from] == PATH_INFINITY || iter != 0 
+            if (distance_matrix[iter][from] == PATH_INFINITY || iter != 0
                 && distance_matrix[iter][from] == distance_matrix[iter - 1][from])
                 continue;
             for (int to = 0; to < vertex_count; ++to) {
@@ -135,9 +135,9 @@ int main() {
         if (writing_work) {
             std::cout << "\tIteration " << iter << ":\t";
             for (int i = 0; i < vertex_count; ++i) {
-                if (distance_matrix[iter][i] == PATH_INFINITY) 
+                if (distance_matrix[iter][i] == PATH_INFINITY)
                     std::cout << "inf\t";
-                else 
+                else
                     std::cout << distance_matrix[iter][i] << "\t";
             }
             std::cout << std::endl;
