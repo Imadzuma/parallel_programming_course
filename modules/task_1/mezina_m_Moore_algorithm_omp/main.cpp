@@ -27,10 +27,10 @@ int main(int argc, char** argv) {
     string s;
     std::cin >> s;
     if (s == "1") writing_work = 1;*/
-    vertex_count = 10000;
-    edges_count = 99990000;
+    vertex_count = 5;
+    edges_count = 10;
     start_vertex = 0;
-    writing_work = 0;
+    writing_work = 1;
 
     // Memory allocation matrix
     srand(static_cast<unsigned int>(time(0)));
@@ -94,12 +94,12 @@ int main(int argc, char** argv) {
     distance_matrix = new unsigned int*[vertex_count + 1];
     for (unsigned int i = 0; i <= vertex_count; ++i)
         distance_matrix[i] = new unsigned int[vertex_count];
-    distance_matrix[0][start_vertex] = 0;
     prev_vertex = new unsigned int[vertex_count];
     for (unsigned int i = 0; i < vertex_count; ++i) {
         distance_matrix[0][i] = PATH_INFINITY;
         prev_vertex[i] = PATH_INFINITY;
     }
+    distance_matrix[0][start_vertex] = 0;
     prev_vertex[start_vertex] = start_vertex;
     path = new std::vector<unsigned int>[vertex_count];
 
