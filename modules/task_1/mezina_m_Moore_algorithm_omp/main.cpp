@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 
-int main() {
+int main(int argc, char** argv) {
     // Graph params
     unsigned int vertex_count;
     unsigned int edges_count;
