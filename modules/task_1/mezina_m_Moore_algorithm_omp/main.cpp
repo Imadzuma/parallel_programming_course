@@ -178,6 +178,6 @@ int main() {
 	finish_time = clock();
 	cout << "TIME: " << (double)(finish_time - start_time) / 1000 << endl;
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
