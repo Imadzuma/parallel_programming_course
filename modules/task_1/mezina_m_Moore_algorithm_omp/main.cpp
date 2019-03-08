@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 int main() {
     // Graph params
@@ -34,16 +35,18 @@ int main() {
     // Memory allocation matrix
     srand(time(0));
     graph_matrix = new unsigned char*[vertex_count];
-    for (int i = 0; i < vertex_count; ++i) {
+    for (unsigned int i = 0; i < vertex_count; ++i) {
         graph_matrix[i] = new unsigned char[vertex_count];
     }
 
     // Generate matrix
     if (edges_count <= vertex_count * (vertex_count - 1) / 2) {
-        for (int i = 0; i < vertex_count; ++i)
-            memset(graph_matrix[i], 0, vertex_count * sizeof(unsigned char));
-        for (int i = 0; i < edges_count; ++i) {
-            int x, y;
+        for (unsigned int i = 0; i < vertex_count; ++i) {
+            for (unsigned int j = 0; j < vertex_count; ++j)
+                graph_matrix[i][j] = 0;
+        }
+        for (unsigned int i = 0; i < edges_count; ++i) {
+            unsigned int x, y;
             do {
                 x = std::rand() % vertex_count;
                 y = std::rand() % vertex_count;
@@ -52,12 +55,12 @@ int main() {
             graph_matrix[x][y] = value;
         }
     }   else {
-        for (int x = 0; x < vertex_count; ++x) {
-            for (int y = 0; y < vertex_count; ++y)
+        for (unsigned int x = 0; x < vertex_count; ++x) {
+            for (unsigned int y = 0; y < vertex_count; ++y)
                 graph_matrix[x][y] = (x != y) ? std::rand() % 100 + 1 : 0;
         }
-        for (int i = 0; i < vertex_count * (vertex_count - 1) - edges_count; ++i) {
-            int x, y;
+        for (unsigned int i = 0; i < vertex_count * (vertex_count - 1) - edges_count; ++i) {
+            unsigned int x, y;
             do {
                 x = std::rand() % vertex_count;
                 y = std::rand() % vertex_count;
@@ -67,9 +70,9 @@ int main() {
     }
     if (writing_work) {
         std::cout << std::endl << "GENERATE MATRIX:" << std::endl;
-        for (int x = 0; x < vertex_count; ++x) {
-            for (int y = 0; y < vertex_count; ++y)
-                std::cout << "\t" << static_cast<int>(graph_matrix[x][y]);
+        for (unsigned int x = 0; x < vertex_count; ++x) {
+            for (unsigned int y = 0; y < vertex_count; ++y)
+                std::cout << "\t" << static_cast<unsigned int>(graph_matrix[x][y]);
             std::cout << std::endl;
         }
     }
@@ -84,20 +87,21 @@ int main() {
     unsigned int* prev_vertex;
     const unsigned int PATH_INFINITY = ~(unsigned int)0;
     bool check_compare;
-    int iter;
-    std::vector<int>* path;
+    unsigned int iter;
+    std::vector<unsigned int>* path;
 
     // Memory allocation params
     distance_matrix = new unsigned int*[vertex_count + 1];
-    for (int i = 0; i <= vertex_count; ++i) {
+    for (unsigned int i = 0; i <= vertex_count; ++i)
         distance_matrix[i] = new unsigned int[vertex_count];
-        memset(distance_matrix[i], 255, vertex_count * sizeof(unsigned int));
-    }
     distance_matrix[0][start_vertex] = 0;
     prev_vertex = new unsigned int[vertex_count];
-    memset(prev_vertex, 255, vertex_count * sizeof(unsigned int));
+    for (unsigned int i = 0; i < vertex_count; ++i) {
+        distance_matrix[0][i] = PATH_INFINITY;
+        prev_vertex[i] = PATH_INFINITY;
+    }
     prev_vertex[start_vertex] = start_vertex;
-    path = new std::vector<int>[vertex_count];
+    path = new std::vector<unsigned int>[vertex_count];
 
     // Algorithm
     iter = 0;
@@ -105,7 +109,7 @@ int main() {
     if (writing_work) {
         std::cout << "WORK ITERATION: "<< std::endl;
         std::cout << "\tIteration 0:\t";
-        for (int i = 0; i < vertex_count; ++i) {
+        for (unsigned int i = 0; i < vertex_count; ++i) {
             if (distance_matrix[0][i] == PATH_INFINITY)
                 std::cout << "inf\t";
             else
@@ -116,14 +120,15 @@ int main() {
     while (!check_compare && iter < vertex_count) {
         check_compare = 1;
         // Copy elements
-        for (int vertex = 0; vertex < vertex_count; ++vertex)
+        for (unsigned int vertex = 0; vertex < vertex_count; ++vertex)
             distance_matrix[iter + 1][vertex] = distance_matrix[iter][vertex];
         // Update distance for vertexes
-        for (int from = 0; from < vertex_count; ++from) {
-            if (distance_matrix[iter][from] == PATH_INFINITY || iter != 0
-                && distance_matrix[iter][from] == distance_matrix[iter - 1][from])
+        for (unsigned int from = 0; from < vertex_count; ++from) {
+            if (distance_matrix[iter][from] == PATH_INFINITY)
                 continue;
-            for (int to = 0; to < vertex_count; ++to) {
+            if (iter != 0 && distance_matrix[iter][from] == distance_matrix[iter - 1][from])
+                continue;
+            for (unsigned int to = 0; to < vertex_count; ++to) {
                 if (graph_matrix[from][to] == 0)
                     continue;
                 if (distance_matrix[iter + 1][to] > distance_matrix[iter][from] + graph_matrix[from][to]) {
@@ -136,7 +141,7 @@ int main() {
         iter++;
         if (writing_work) {
             std::cout << "\tIteration " << iter << ":\t";
-            for (int i = 0; i < vertex_count; ++i) {
+            for (unsigned int i = 0; i < vertex_count; ++i) {
                 if (distance_matrix[iter][i] == PATH_INFINITY)
                     std::cout << "inf\t";
                 else
@@ -147,10 +152,10 @@ int main() {
     }
 
     // Find pathes
-    for (int vertex = 0; vertex < vertex_count; ++vertex) {
+    for (unsigned int vertex = 0; vertex < vertex_count; ++vertex) {
         if (distance_matrix[iter][vertex] == PATH_INFINITY)
             continue;
-        int cur_vertex = vertex;
+        unsigned int cur_vertex = vertex;
         do {
             path[vertex].push_back(cur_vertex);
             cur_vertex = prev_vertex[cur_vertex];
@@ -163,7 +168,7 @@ int main() {
     // Print results
     if (writing_work) {
         std::cout << "RESULTS: "<< std::endl;
-        for (int vertex = 0; vertex < vertex_count; ++vertex) {
+        for (unsigned int vertex = 0; vertex < vertex_count; ++vertex) {
             std::cout << "\t" << vertex + 1 << ")\t";
             if (distance_matrix[iter][vertex] == PATH_INFINITY) {
                 std::cout << "not path" << std::endl;
@@ -172,7 +177,7 @@ int main() {
             std::cout << "Distance: " << distance_matrix[iter][vertex] << std::endl;
             std::cout << "\t\tPath: ";
             std::cout << path[vertex][0] + 1;
-            for (int i = 1; i < path[vertex].size(); ++i)
+            for (unsigned int i = 1; i < path[vertex].size(); ++i)
                 std::cout << "->" << path[vertex][i] + 1;
             std::cout << std::endl;
         }
