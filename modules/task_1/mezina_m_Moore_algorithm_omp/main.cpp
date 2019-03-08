@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     writing_work = 0;
 
     // Memory allocation matrix
-    srand(time(0));
+    srand(static_cast<unsigned int>(time(0)));
     graph_matrix = new unsigned char*[vertex_count];
     for (unsigned int i = 0; i < vertex_count; ++i) {
         graph_matrix[i] = new unsigned char[vertex_count];
