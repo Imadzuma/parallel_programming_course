@@ -1,3 +1,5 @@
+// Copyright 2019 Mezina Margarita
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
