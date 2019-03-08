@@ -67,7 +67,7 @@ int main() {
         std::cout << std::endl << "GENERATE MATRIX:" << std::endl;
         for (int x = 0; x < vertex_count; ++x) {
             for (int y = 0; y < vertex_count; ++y)
-                std::cout << "\t" << (int)graph_matrix[x][y];
+                std::cout << "\t" << static_cast<int>(graph_matrix[x][y]);
             std::cout << std::endl;
         }
     }
@@ -104,19 +104,22 @@ int main() {
         std::cout << "WORK ITERATION: "<< std::endl;
         std::cout << "\tIteration 0:\t";
         for (int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) std::cout << "inf\t";
-            else std::cout << distance_matrix[0][i] << "\t";
+            if (distance_matrix[0][i] == PATH_INFINITY)
+                std::cout << "inf\t";
+            else
+                std::cout << distance_matrix[0][i] << "\t";
         }
         std::cout << std::endl;
     }
-    while(!check_compare && iter < vertex_count) {
+    while (!check_compare && iter < vertex_count) {
         check_compare = 1;
         // Copy elements
         for (int vertex = 0; vertex < vertex_count; ++vertex)
             distance_matrix[iter + 1][vertex] = distance_matrix[iter][vertex];
-        // Update distance for vertexes 
+        // Update distance for vertexes
         for (int from = 0; from < vertex_count; ++from) {
-            if (distance_matrix[iter][from] == PATH_INFINITY || iter != 0 && distance_matrix[iter][from] == distance_matrix[iter - 1][from])
+            if (distance_matrix[iter][from] == PATH_INFINITY || iter != 0 
+                && distance_matrix[iter][from] == distance_matrix[iter - 1][from])
                 continue;
             for (int to = 0; to < vertex_count; ++to) {
                 if (graph_matrix[from][to] == 0)
@@ -132,8 +135,10 @@ int main() {
         if (writing_work) {
             std::cout << "\tIteration " << iter << ":\t";
             for (int i = 0; i < vertex_count; ++i) {
-                if (distance_matrix[iter][i] == PATH_INFINITY) std::cout << "inf\t";
-                else std::cout << distance_matrix[iter][i] << "\t";
+                if (distance_matrix[iter][i] == PATH_INFINITY) 
+                    std::cout << "inf\t";
+                else 
+                    std::cout << distance_matrix[iter][i] << "\t";
             }
             std::cout << std::endl;
         }
@@ -173,7 +178,7 @@ int main() {
 
     // Finish time
     finish_time = clock();
-    std::cout << "TIME: " << (double)(finish_time - start_time) / 1000 << std::endl;
+    std::cout << "TIME: " << static_cast<double>(finish_time - start_time) / 1000 << std::endl;
 
     // system("pause");
     return 0;
