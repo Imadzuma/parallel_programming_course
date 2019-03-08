@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 int main() {
     // Graph params
     unsigned int vertex_count;
@@ -15,16 +13,16 @@ int main() {
     unsigned int start_vertex;
 
     // Enter graph params
-    /*cout << "Enter count of vertexes: ";
-    cin >> vertex_count;
-    cout << "Enter count of edges: ";
-    cin >> edges_count;
-    cout << "Enter start vertex: ";
-    cin >> start_vertex;
+    /*std::cout << "Enter count of vertexes: ";
+    std::cin >> vertex_count;
+    std::cout << "Enter count of edges: ";
+    std::cin >> edges_count;
+    std::cout << "Enter start vertex: ";
+    std::cin >> start_vertex;
     start_vertex--;
-    cout << "Enter 1, if should print intermidiate information, else enter any other value: ";
+    std::cout << "Enter 1, if should print intermidiate information, else enter any other value: ";
     string s;
-    cin >> s;
+    std::cin >> s;
     if (s == "1") writing_work = 1;*/
     vertex_count = 10000;
     edges_count = 99990000;
@@ -45,38 +43,37 @@ int main() {
         for (int i = 0; i < edges_count; ++i) {
             int x, y;
             do {
-                x = rand() % vertex_count;
-                y = rand() % vertex_count;
+                x = std::rand() % vertex_count;
+                y = std::rand() % vertex_count;
             } while (x == y || graph_matrix[x][y] != 0);
-            unsigned char value = rand() % 100 + 1;
+            unsigned char value = std::rand() % 100 + 1;
             graph_matrix[x][y] = value;
         }
-    }
-    else {
+    }   else {
         for (int x = 0; x < vertex_count; ++x) {
             for (int y = 0; y < vertex_count; ++y)
-                graph_matrix[x][y] = (x != y) ? rand() % 100 + 1 : 0;
+                graph_matrix[x][y] = (x != y) ? std::rand() % 100 + 1 : 0;
         }
         for (int i = 0; i < vertex_count * (vertex_count - 1) - edges_count; ++i) {
             int x, y;
             do {
-                x = rand() % vertex_count;
-                y = rand() % vertex_count;
+                x = std::rand() % vertex_count;
+                y = std::rand() % vertex_count;
             } while (graph_matrix[x][y] == 0);
             graph_matrix[x][y] = 0;
         }
     }
     if (writing_work) {
-        cout << endl << "GENERATE MATRIX:" << endl;
+        std::cout << std::endl << "GENERATE MATRIX:" << std::endl;
         for (int x = 0; x < vertex_count; ++x) {
             for (int y = 0; y < vertex_count; ++y)
-                cout << "\t" << (int)graph_matrix[x][y];
-            cout << endl;
+                std::cout << "\t" << (int)graph_matrix[x][y];
+            std::cout << std::endl;
         }
     }
 
     // Starting time
-    cout << "START WORK!" << endl;
+    std::cout << "START WORK!" << std::endl;
     unsigned int start_time, finish_time;
     start_time = clock();
 
@@ -86,7 +83,7 @@ int main() {
     const unsigned int PATH_INFINITY = ~(unsigned int)0;
     bool check_compare;
     int iter;
-    vector<int>* path;
+    std::vector<int>* path;
 
     // Memory allocation params
     distance_matrix = new unsigned int*[vertex_count + 1];
@@ -98,19 +95,19 @@ int main() {
     prev_vertex = new unsigned int[vertex_count];
     memset(prev_vertex, 255, vertex_count * sizeof(unsigned int));
     prev_vertex[start_vertex] = start_vertex;
-    path = new vector<int>[vertex_count];
+    path = new std::vector<int>[vertex_count];
 
     // Algorithm
     iter = 0;
     check_compare = 0;
     if (writing_work) {
-        cout << "WORK ITERATION: "<<endl;
-        cout << "\tIteration 0:\t";
+        std::cout << "WORK ITERATION: "<< std::endl;
+        std::cout << "\tIteration 0:\t";
         for (int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) cout << "inf\t";
-            else cout << distance_matrix[0][i] << "\t";
+            if (distance_matrix[0][i] == PATH_INFINITY) std::cout << "inf\t";
+            else std::cout << distance_matrix[0][i] << "\t";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
     while(!check_compare && iter < vertex_count) {
         check_compare = 1;
@@ -133,12 +130,12 @@ int main() {
         }
         iter++;
         if (writing_work) {
-            cout << "\tIteration " << iter << ":\t";
+            std::cout << "\tIteration " << iter << ":\t";
             for (int i = 0; i < vertex_count; ++i) {
-                if (distance_matrix[iter][i] == PATH_INFINITY) cout << "inf\t";
-                else cout << distance_matrix[iter][i] << "\t";
+                if (distance_matrix[iter][i] == PATH_INFINITY) std::cout << "inf\t";
+                else std::cout << distance_matrix[iter][i] << "\t";
             }
-            cout << endl;
+            std::cout << std::endl;
         }
     }
 
@@ -158,25 +155,25 @@ int main() {
 
     // Print results
     if (writing_work) {
-        cout << "RESULTS: "<<endl;
+        std::cout << "RESULTS: "<< std::endl;
         for (int vertex = 0; vertex < vertex_count; ++vertex) {
-            cout << "\t" << vertex + 1 << ")\t";
+            std::cout << "\t" << vertex + 1 << ")\t";
             if (distance_matrix[iter][vertex] == PATH_INFINITY) {
-                cout << "not path" << endl;
+                std::cout << "not path" << std::endl;
                 continue;
             }
-            cout << "Distance: " << distance_matrix[iter][vertex] << endl;
-            cout << "\t\tPath: ";
-            cout << path[vertex][0] + 1;
+            std::cout << "Distance: " << distance_matrix[iter][vertex] << std::endl;
+            std::cout << "\t\tPath: ";
+            std::cout << path[vertex][0] + 1;
             for (int i = 1; i < path[vertex].size(); ++i)
-                cout << "->" << path[vertex][i] + 1;
-            cout << endl;
+                std::cout << "->" << path[vertex][i] + 1;
+            std::cout << std::endl;
         }
     }
 
     // Finish time
     finish_time = clock();
-    cout << "TIME: " << (double)(finish_time - start_time) / 1000 << endl;
+    std::cout << "TIME: " << (double)(finish_time - start_time) / 1000 << std::endl;
 
     // system("pause");
     return 0;
