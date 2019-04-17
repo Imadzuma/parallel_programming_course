@@ -156,7 +156,7 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
 
     // Memory allocation
     u_int** distance_matrix = new u_int*[vertex_count + 1];
-    for (int i = 0; i <= vertex_count; ++i)
+    for (u_int i = 0; i <= vertex_count; ++i)
         distance_matrix[i] = new u_int[vertex_count];
     u_int* prev_vertex = new u_int[vertex_count];
 #pragma omp parallel for schedule(guided)
@@ -293,7 +293,7 @@ int main(int argc, char** argv) {
 
     // Generate matrix
     omp_set_num_threads(threads_count);
-    srand(time(0));
+    srand(static_cast<int>(time(0)));
     graph_matrix = GenerateMatrix(vertex_count, edges_count, writing_work);
 
     // Parallel realisation
