@@ -267,7 +267,7 @@ int main(int argc, char** argv) {
 	u_int threads_count;
 
 	// Enter graph params
-	std::cout << "Enter count of threads: ";
+	/*std::cout << "Enter count of threads: ";
 	std::cin >> threads_count;
 	std::cout << "Enter count of vertexes: ";
 	std::cin >> vertex_count;
@@ -279,7 +279,12 @@ int main(int argc, char** argv) {
 	std::cout << "Enter 1, if should print intermidiate information, else enter any other value: ";
 	std::string s;
 	std::cin >> s;
-	if (s == "1") writing_work = true;
+	if (s == "1") writing_work = true;*/
+	threads_count = 8;
+	vertex_count = 5;
+	edges_count = 10;
+	start_vertex = 0;
+	writing_work = 1;
 
 	// Generate matrix
 	omp_set_num_threads(threads_count);
@@ -320,6 +325,6 @@ int main(int argc, char** argv) {
 
 	std::cout << "Acceleration: " << (seq_finish_time - seq_start_time) / (par_finish_time - par_start_time) << "\n";
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
