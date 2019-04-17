@@ -43,8 +43,7 @@ u_char** GenerateMatrix(u_int vertex_count, u_int edges_count, bool writing_work
             u_char value = std::rand() % 100 + 1;
             graph_matrix[x][y] = value;
         }
-    }
-    else {
+    } else {
         for (u_int x = 0; x < vertex_count; ++x) {
             for (u_int y = 0; y < vertex_count; ++y)
                 graph_matrix[x][y] = (x != y) ? std::rand() % 100 + 1 : 0;
@@ -88,8 +87,10 @@ res_format SequentialResult(u_char** graph_matrix, u_int vertex_count, u_int sta
     if (writing_work) {
         std::cout << "\tIteration 0:\t";
         for (u_int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) std::cout << "inf\t";
-            else std::cout << distance_matrix[0][i] << "\t";
+            if (distance_matrix[0][i] == PATH_INFINITY)
+                std::cout << "inf\t";
+            else
+                std::cout << distance_matrix[0][i] << "\t";
         }
         std::cout << "\n";
     }
@@ -167,8 +168,10 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
     if (writing_work) {
         std::cout << "\tIteration 0:\t";
         for (u_int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) std::cout << "inf\t";
-            else std::cout << distance_matrix[0][i] << "\t";
+            if (distance_matrix[0][i] == PATH_INFINITY)
+                std::cout << "inf\t";
+            else
+                std::cout << distance_matrix[0][i] << "\t";
         }
         std::cout << "\n";
     }
@@ -234,8 +237,10 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
 
 /* PRINT RESULT */
 void PrintResults(res_format result, u_int vertex_count, bool writing_work, bool is_sequential) {
-    if (is_sequential) std::cout << "<-----SEQUENTIAL RESULTS----->\n";
-    else std::cout << "<-----PARALLEL RESULTS----->\n";
+    if (is_sequential)
+        std::cout << "<-----SEQUENTIAL RESULTS----->\n";
+    else
+        std::cout << "<-----PARALLEL RESULTS----->\n";
 
     // Write
     u_int* distance = result.distance;
@@ -307,7 +312,7 @@ int main(int argc, char** argv) {
         par_result.path[i].clear();
     delete[] par_result.path;
 
-    //Sequential realisation
+    // Sequential realisation
     double seq_start_time, seq_finish_time;
     seq_start_time = omp_get_wtime();
     res_format seq_result = SequentialResult(graph_matrix, vertex_count, start_vertex, writing_work);
@@ -325,6 +330,6 @@ int main(int argc, char** argv) {
 
     std::cout << "Acceleration: " << (seq_finish_time - seq_start_time) / (par_finish_time - par_start_time) << "\n";
 
-    //system("pause");
+    // system("pause");
     return 0;
 }
