@@ -160,7 +160,7 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
         distance_matrix[i] = new u_int[vertex_count];
     u_int* prev_vertex = new u_int[vertex_count];
 #pragma omp parallel for schedule(guided)
-    for (int i = 0; i < vertex_count; ++i)
+    for (int i = 0; i < static_cast<int>(vertex_count); ++i)
         distance_matrix[0][i] = prev_vertex[i] = PATH_INFINITY;
     distance_matrix[0][start_vertex] = 0;
     prev_vertex[start_vertex] = start_vertex;
@@ -182,11 +182,11 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
         check_compare = 1;
         // Copy elements
 #pragma omp parallel for schedule(guided)
-        for (int vertex = 0; vertex < vertex_count; ++vertex)
+        for (int vertex = 0; vertex < static_cast<int>(vertex_count); ++vertex)
             distance_matrix[iter + 1][vertex] = distance_matrix[iter][vertex];
         // Update
 #pragma omp parallel for schedule(guided)
-        for (int from = 0; from < vertex_count; ++from) {
+        for (int from = 0; from < static_cast<int>(vertex_count); ++from) {
             if (distance_matrix[iter][from] == PATH_INFINITY) continue;
             if (iter != 0 && distance_matrix[iter][from] == distance_matrix[iter - 1][from]) continue;
             for (u_int to = 0; to < vertex_count; ++to) {
@@ -214,7 +214,7 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
     // Find vectors_paths
     std::vector<u_int>* path = new std::vector<u_int>[vertex_count];
 #pragma omp parallel for schedule(guided)
-    for (int vertex = 0; vertex < vertex_count; ++vertex) {
+    for (int vertex = 0; vertex < static_cast<int>(vertex_count); ++vertex) {
         if (distance_matrix[iter - 1][vertex] == PATH_INFINITY) continue;
         u_int cur_vertex = vertex;
         do {
@@ -308,7 +308,7 @@ int main(int argc, char** argv) {
 
     // Free memory
     delete[] par_result.distance;
-    for (int i = 0; i < par_result.path->size(); ++i)
+    for (u_int i = 0; i < par_result.path->size(); ++i)
         par_result.path[i].clear();
     delete[] par_result.path;
 
@@ -324,7 +324,7 @@ int main(int argc, char** argv) {
 
     // Free memory
     delete[] seq_result.distance;
-    for (int i = 0; i < seq_result.path->size(); ++i)
+    for (u_int i = 0; i < seq_result.path->size(); ++i)
          seq_result.path[i].clear();
     delete[] seq_result.path;
 
