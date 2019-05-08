@@ -87,9 +87,9 @@ res_format SequentialResult(u_char** graph_matrix, u_int vertex_count, u_int sta
     if (writing_work) {
         std::cout << "\tIteration 0:\t";
         for (u_int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) 
+            if (distance_matrix[0][i] == PATH_INFINITY)
                 std::cout << "inf\t";
-            else 
+            else
                 std::cout << distance_matrix[0][i] << "\t";
         }
         std::cout << "\n";
@@ -158,7 +158,7 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
     tbb::parallel_for(tbb::blocked_range<int>(0, vertex_count, 1), [=](const tbb::blocked_range<int>& r) {
         int begin = r.begin();
         int end = r.end();
-        for(int i = begin; i != end; ++i)
+        for (int i = begin; i != end; ++i)
             distance_matrix[0][i] = prev_vertex[i] = PATH_INFINITY;
     });
     distance_matrix[0][start_vertex] = 0;
@@ -168,9 +168,9 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
     if (writing_work) {
         std::cout << "\tIteration 0:\t";
         for (u_int i = 0; i < vertex_count; ++i) {
-            if (distance_matrix[0][i] == PATH_INFINITY) 
-					std::cout << "inf\t";
-            else 
+            if (distance_matrix[0][i] == PATH_INFINITY)
+                std::cout << "inf\t";
+            else
                 std::cout << distance_matrix[0][i] << "\t";
         }
         std::cout << "\n";
@@ -240,9 +240,9 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
 
 /* PRINT RESULT */
 void PrintResults(res_format result, u_int vertex_count, bool writing_work, bool is_sequential) {
-    if (is_sequential) 
+    if (is_sequential)
         std::cout << "<-----SEQUENTIAL RESULTS----->\n";
-    else 
+    else
         std::cout << "<-----PARALLEL RESULTS----->\n";
 
     // Write
@@ -319,9 +319,9 @@ int main(int argc, char** argv) {
     PrintResults(seq_result, vertex_count, writing_work, true);
     std::cout << "\tTIME: " << (seq_finish_time - seq_start_time).seconds() << "\n\n";
 
-    std::cout << "Acceleration: " << (seq_finish_time - seq_start_time).seconds() 
+    std::cout << "Acceleration: " << (seq_finish_time - seq_start_time).seconds()
         / (par_finish_time - par_start_time).seconds() << "\n";
 
     system("pause");
-	return 0;
+    return 0;
 }
