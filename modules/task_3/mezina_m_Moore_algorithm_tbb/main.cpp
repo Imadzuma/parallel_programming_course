@@ -1,6 +1,6 @@
 // Copyright 2019 Mezina Margarita
 
-#include <tbb\tbb.h>
+#include <tbb/tbb.h>
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
