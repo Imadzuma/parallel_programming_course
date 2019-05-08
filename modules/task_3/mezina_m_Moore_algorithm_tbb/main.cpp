@@ -296,7 +296,7 @@ int main(int argc, char** argv) {
 
     // Generate matrix
     tbb::task_scheduler_init init(threads_count);
-    srand(time(0));
+    srand(static_cast<int>(time(0)));
     graph_matrix = GenerateMatrix(vertex_count, edges_count, writing_work);
 
     // Parallel realisation
