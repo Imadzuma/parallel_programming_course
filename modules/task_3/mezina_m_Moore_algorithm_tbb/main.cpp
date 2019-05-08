@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "tbb\tbb.h"
+#include <tbb\tbb.h>
 
 #define PATH_INFINITY ~(unsigned int)0
 
