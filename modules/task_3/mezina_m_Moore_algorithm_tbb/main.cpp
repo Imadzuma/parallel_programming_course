@@ -1,12 +1,12 @@
 // Copyright 2019 Mezina Margarita
 
+#include <tbb\tbb.h>
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <tbb\tbb.h>
 
 #define PATH_INFINITY ~(unsigned int)0
 
