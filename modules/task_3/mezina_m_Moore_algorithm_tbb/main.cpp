@@ -152,7 +152,7 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
 
     // Memory allocation
     u_int** distance_matrix = new u_int*[vertex_count + 1];
-    for (int i = 0; i <= vertex_count; ++i)
+    for (u_int i = 0; i <= vertex_count; ++i)
         distance_matrix[i] = new u_int[vertex_count];
     u_int* prev_vertex = new u_int[vertex_count];
     tbb::parallel_for(tbb::blocked_range<int>(0, vertex_count, 1), [=](const tbb::blocked_range<int>& r) {
@@ -322,6 +322,6 @@ int main(int argc, char** argv) {
     std::cout << "Acceleration: " << (seq_finish_time - seq_start_time).seconds()
         / (par_finish_time - par_start_time).seconds() << "\n";
 
-    system("pause");
+    // system("pause");
     return 0;
 }
