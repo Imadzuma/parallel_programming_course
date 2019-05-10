@@ -143,6 +143,10 @@ res_format SequentialResult(u_char** graph_matrix, u_int vertex_count, u_int sta
     // Return
     if (writing_work) std::cout << "\n";
     res_format result = { distance_matrix[iter - 1], path };
+    for (int i = 0; i < iter - 1; ++i)
+        delete[] distance_matrix[i];
+    delete[] distance_matrix;
+    delete[] prev_vertex;
     return result;
 }
 
@@ -235,6 +239,10 @@ res_format ParallelResult(u_char** graph_matrix, u_int vertex_count, u_int start
     // Return
     if (writing_work) std::cout << "\n";
     res_format result = { distance_matrix[iter - 1], path };
+    for (int i = 0; i < iter - 1; ++i)
+        delete[] distance_matrix[i];
+    delete[] distance_matrix;
+    delete[] prev_vertex;
     return result;
 }
 
@@ -309,6 +317,12 @@ int main(int argc, char** argv) {
     PrintResults(par_result, vertex_count, writing_work, false);
     std::cout << "\tTIME: " << (par_finish_time - par_start_time).seconds() << "\n\n";
 
+    // Free memory
+    delete[] par_result.distance;
+    for (u_int i = 0; i < par_result.path->size(); ++i)
+        par_result.path[i].clear();
+    delete[] par_result.path;
+    
     // Sequential realisation
     tbb::tick_count seq_start_time, seq_finish_time;
     seq_start_time = tbb::tick_count::now();
@@ -319,6 +333,12 @@ int main(int argc, char** argv) {
     PrintResults(seq_result, vertex_count, writing_work, true);
     std::cout << "\tTIME: " << (seq_finish_time - seq_start_time).seconds() << "\n\n";
 
+    // Free memory
+    delete[] seq_result.distance;
+    for (u_int i = 0; i < seq_result.path->size(); ++i)
+         seq_result.path[i].clear();
+    delete[] seq_result.path;
+    
     std::cout << "Acceleration: " << (seq_finish_time - seq_start_time).seconds()
         / (par_finish_time - par_start_time).seconds() << "\n";
 
