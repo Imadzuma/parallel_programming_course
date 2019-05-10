@@ -322,7 +322,7 @@ int main(int argc, char** argv) {
     for (u_int i = 0; i < par_result.path->size(); ++i)
         par_result.path[i].clear();
     delete[] par_result.path;
-    
+
     // Sequential realisation
     tbb::tick_count seq_start_time, seq_finish_time;
     seq_start_time = tbb::tick_count::now();
@@ -338,7 +338,7 @@ int main(int argc, char** argv) {
     for (u_int i = 0; i < seq_result.path->size(); ++i)
          seq_result.path[i].clear();
     delete[] seq_result.path;
-    
+
     std::cout << "Acceleration: " << (seq_finish_time - seq_start_time).seconds()
         / (par_finish_time - par_start_time).seconds() << "\n";
 
